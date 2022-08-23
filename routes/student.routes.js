@@ -7,3 +7,4 @@ const router = express.Router();
 router.get('/', getStudents);
 
 export default router;
+
