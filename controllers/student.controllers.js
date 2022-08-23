@@ -3,3 +3,4 @@ export const getStudents = ((req, res) => {
         message: " Here we get all the students "
     })
 })
+
