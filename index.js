@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import DBCONNECT from './config/dbconnect.js';
 import StudentRoutes from './routes/student.routes.js';
+import ErrorHandler from './middleware/ErrorHandler.js';
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -11,6 +12,8 @@ const app = express();
 app.use(express.json());
 
 app.use("/student", StudentRoutes);
+
+app.use(ErrorHandler);
 
 // APP LISTENTING
 app.listen(PORT, async () => {
