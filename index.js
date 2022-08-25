@@ -14,7 +14,7 @@ app.use("/student", StudentRoutes);
 
 // APP LISTENTING
 app.listen(PORT, async () => {
-    await DBCONNECT;
+    await DBCONNECT();
     console.log(`Server is running on port ${PORT}`);
 })
 
