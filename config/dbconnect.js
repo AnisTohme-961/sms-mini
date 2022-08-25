@@ -8,4 +8,8 @@ const DBCONNECT = async ()=> {
     }
 }
 
+mongoose.connection.on("connected", () => {
+    console.log("Database Connected");
+})
+
 export default DBCONNECT;
