@@ -83,9 +83,9 @@ export const getStudentByEmail = async (req, res, next) => {
 
 export const updateStudent = async (req, res, next) => {
     const id = req.params.id;
-    const {firstName, lastName, email, age} = req.body;
+    const {firstName, lastName, age} = req.body;
     try {
-        const student = await Student.findOneAndUpdate({id}, {firstName, lastName, email, age}, {new:true});
+        const student = await Student.findOneAndUpdate({id}, {firstName, lastName, age}, {new:true});
         if (!student) {
             return next(CreateError(`Student not found with id ${id}`))
         }
