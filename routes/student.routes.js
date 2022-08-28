@@ -12,7 +12,7 @@ router.get('/id/:id', getStudentById);
 
 router.get('/email/:email', getStudentByEmail);
 
-router.put('/id/:id', updateStudent)
+router.put('/:id', updateStudent);
 
 export default router;
 
