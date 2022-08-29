@@ -83,9 +83,9 @@ export const getStudentByEmail = async (req, res, next) => {
 
 export const updateStudent = async (req, res, next) => {
     const id = req.params.id;
-    const {firstName, lastName, age} = req.body;
+    const {firstName, lastName, email, age} = req.body;
     try {
-        const student = await Student.findOneAndUpdate({id}, {firstName, lastName, age}, {new:true});
+        const student = await Student.findOneAndUpdate({id}, {firstName, lastName, email, age}, {new:true});
         if (!student) {
             return next(CreateError(`Student not found with id ${id}`))
         }
@@ -97,5 +97,51 @@ export const updateStudent = async (req, res, next) => {
     }
     catch (error) {
         next (error)
+    }
+}
+
+export const changePassword = async (req, res, next) => {
+    const id = req.params.id;
+    const { currentPin, newPin } = req.body;
+    const hashedPin = bcrypt.hash(newPin, 12);
+    try {
+        const student = await Student.findOne({id});
+        if (!student) {
+            return next(CreateError(`Student not found with id ${id}`, 404))
+        }
+        const isMatch = bcrypt.compareSync(currentPin, student.pin);
+        if (!isMatch) {
+            return next(CreateError('Password is incorrect', 401))
+        }
+        const updatedStudent = await Student.findOneAndUpdate({id}, {pin: hashedPin}, {new: true});
+        if (!updatedStudent) {
+            return next(CreateError(`Student not found with id ${id}`, 404))
+        }
+        res.status(200).json ({
+            success: true,
+            message: "Student password updated successfully",
+            student: updatedStudent
+        })
+    }
+    catch (error) {
+        next (error);
+    }
+}
+
+export const deleteStudent = async (req, res, next) => {
+    const id = req.params.id;
+    try {
+        const student = await Student.findOneAndDelete({id});
+        if (!student) {
+            return next(CreateError(`Student not found with id ${id}`, 404))
+        }
+        res.status(200).json({
+            success: true,
+            message: "Student deleted successfully",
+            student: student
+        })
+    }
+    catch (error) {
+        next (error);
     }
 }
