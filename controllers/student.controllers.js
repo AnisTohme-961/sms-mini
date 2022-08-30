@@ -21,7 +21,7 @@ export const getStudents = async (req, res, next) => {
     }
 }
 
-export const addStudent = async (req, res, next) => {
+export const addStudent = async (req, res, next) => {  
 
     const { id, firstName, lastName, email, age, pin } = req.body;
     const hashedPin = await bcrypt.hash(pin, 12);
@@ -144,4 +144,8 @@ export const deleteStudent = async (req, res, next) => {
     catch (error) {
         next (error);
     }
+}
+
+export const login = async (req, res, next) => {
+
 }
