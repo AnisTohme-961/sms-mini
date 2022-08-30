@@ -103,7 +103,7 @@ export const updateStudent = async (req, res, next) => {
 export const changePassword = async (req, res, next) => {
     const id = req.params.id;
     const { currentPin, newPin } = req.body;
-    const hashedPin = bcrypt.hash(newPin, 12);
+    const hashedPin = await bcrypt.hash(newPin, 12);
     try {
         const student = await Student.findOne({id});
         if (!student) {
