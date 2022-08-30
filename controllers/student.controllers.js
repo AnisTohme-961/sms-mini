@@ -1,6 +1,7 @@
 import Student from '../models/student.js';
 import bcrypt from 'bcryptjs';
 import CreateError from '../util/CreateError.js';
+import { generateStudentToken } from '../util/Token.js';
 
 export const getStudents = async (req, res, next) => {
 
@@ -147,5 +148,31 @@ export const deleteStudent = async (req, res, next) => {
 }
 
 export const login = async (req, res, next) => {
+    const { id, pin } = req.body;
+    try {
+        const student = await Student.findOne({id});
+        if (!student) {
+            return next(CreateError(`Student not found with id ${id}`, 404))
+        }
+        const isMatch = bcrypt.compareSync(pin, student.pin);
+        if (!isMatch) {
+            return next(CreateError("The password is incorrect", 401))
+        }
+        const { accessToken, refreshToken } = generateStudentToken(student);
+        
+        await Student.findOneAndUpdate({id}, {token: refreshToken});    // refresh token is added to the database
+        
+        const { token, ...studentData } = student._doc  // remove refresh token from student data
 
+        studentData.accessToken = accessToken   // add access token to student data 
+
+        res.status(200).json({
+            success: true,
+            message: `${student.firstName} ${student.lastName} logged in successfully`,
+            student: studentData
+        })
+    }
+    catch (error) {
+        next (error)
+    }
 }
