@@ -27,6 +27,10 @@ const studentSchema = mongoose.Schema({
         type: String,
         required: [true, 'Pin is required']
     },
+    token: {
+        type: String, 
+        default: null
+    }
 }, {timestamps: true})
 
 export default mongoose.model('Student', studentSchema);
