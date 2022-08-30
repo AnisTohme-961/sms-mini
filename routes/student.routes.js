@@ -4,11 +4,11 @@ import { getStudents, addStudent, getStudentById, getStudentByEmail, updateStude
 
 const router = express.Router();
 
-router.get('/', getStudents);
+router.get('/', getStudents); 
 
-router.post('/', addStudent);
+router.post('/', addStudent);   
 
-router.get('/id/:id', getStudentById);
+router.get('/id/:id', getStudentById); 
 
 router.get('/email/:email', getStudentByEmail);
 
