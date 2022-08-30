@@ -162,7 +162,7 @@ export const login = async (req, res, next) => {
         
         await Student.findOneAndUpdate({id}, {token: refreshToken});    // refresh token is added to the database
         
-        const { token, ...studentData } = student._doc  // remove refresh token from student data
+        const { token, ...studentData } = student._doc  // _doc removes refresh token from student data
 
         studentData.accessToken = accessToken   // add access token to student data 
 
