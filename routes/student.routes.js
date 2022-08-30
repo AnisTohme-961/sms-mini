@@ -1,6 +1,6 @@
 import express from 'express' ;
 
-import { getStudents, addStudent, getStudentById, getStudentByEmail, updateStudent, changePassword, deleteStudent } from '../controllers/student.controllers.js';
+import { getStudents, addStudent, getStudentById, getStudentByEmail, updateStudent, changePassword, deleteStudent, login } from '../controllers/student.controllers.js';
 
 const router = express.Router();
 
@@ -17,6 +17,8 @@ router.put('/:id', updateStudent);
 router.put('/changePassword/:id', changePassword);
 
 router.delete('/:id', deleteStudent);
+
+router.post('/login', login);
 
 export default router;
 
