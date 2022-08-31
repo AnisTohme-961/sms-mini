@@ -1,8 +1,8 @@
 import express from "express";
-import { verifyStaffLogin } from "../middleware/Verifications";
+import { verifyStaffLogin } from "../middleware/Verifications.js";
 import { createStaff, deleteStaff, getStaff, loginStaff } from "../controllers/staff.controllers.js"
 
-const router = express.Router;
+const router = express.Router();
 
 // @route   GET/ staff
 // @desc    Get all staff
