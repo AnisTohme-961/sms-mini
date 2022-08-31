@@ -1,4 +1,5 @@
 import express from 'express' ;
+import { verifyStudentLogin } from '../middleware/Verifications.js';
 
 import { getStudents, addStudent, getStudentById, getStudentByEmail, updateStudent, changePassword, deleteStudent, login } from '../controllers/student.controllers.js';
 
@@ -12,9 +13,9 @@ router.get('/id/:id', getStudentById);
 
 router.get('/email/:email', getStudentByEmail);
 
-router.put('/:id', updateStudent);
+router.put('/:id', verifyStudentLogin, updateStudent);
 
-router.put('/changePassword/:id', changePassword);
+router.put('/changePassword/:id', verifyStudentLogin, changePassword);
 
 router.delete('/:id', deleteStudent);
 
