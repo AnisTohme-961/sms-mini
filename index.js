@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import DBCONNECT from './config/dbconnect.js';
 import StudentRoutes from './routes/student.routes.js';
-import StaffRoutes from './routes/student.routes.js';
+import StaffRoutes from './routes/staff.routes.js';
 import ErrorHandler from './middleware/ErrorHandler.js';
 
 dotenv.config();
