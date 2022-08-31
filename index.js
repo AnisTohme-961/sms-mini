@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import DBCONNECT from './config/dbconnect.js';
 import StudentRoutes from './routes/student.routes.js';
+import StaffRoutes from './routes/student.routes.js';
 import ErrorHandler from './middleware/ErrorHandler.js';
 
 dotenv.config();
@@ -12,6 +13,8 @@ const app = express();
 app.use(express.json());
 
 app.use("/student", StudentRoutes);
+
+app.use("/staff", StaffRoutes);
 
 app.use(ErrorHandler);
 
