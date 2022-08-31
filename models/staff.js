@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const staffSchema = mongoose.Schema ({
+const staffSchema = mongoose.Schema({
     name: {
         type: String, 
         required: [true, 'Staff name is required']
@@ -30,4 +30,4 @@ const staffSchema = mongoose.Schema ({
     }
 }, {timestamps: true})
 
-export default mongoose.Model('Staff', staffSchema)
+export default mongoose.model('Staff', staffSchema)
