@@ -1,44 +1,8 @@
 import CreateError from "../util/CreateError.js";
 import jwt from "jsonwebtoken";
 import Staff from "../models/staff.js";
-import Student from "../models/student.js";
 
-export const verifyStudentLogin = async (req, res, next) => {
-    let token = null;
-    try {
-        console.log("headers", req.headers.authorization)
-        const headers = req.headers.authorization;
-        if (headers == undefined) {
-            return next(CreateError("Token not found", 401))
-        }
-        token = req.headers.authorization.split(" ")[1];
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-        console.log("Decoded Token: ", decodedToken);
-        if (!decodedToken) {
-            return next(CreateError("Token not found", 401))
-        }
-        if (decodedToken.exp < Date.now() / 1000) {
-            return next(CreateError("Token expired"), 401)
-        }
-
-        const { id, email } = decodedToken;
-        const student = await Student.findOne({id});
-        if (!student) {
-            return next(CreateError(`Student not found with id ${id}`, 404))
-        }
-        req.student = student;
-        next();
-    }
-    catch (error) {
-        next (error)
-    }
-
-    if (!token) {
-        return next(CreateError("Token not found", 404))
-    }
-}
-
-export const verifyStaffLogin = async (req, res, next) => {
+export const verifyLogin = async (req, res, next) => {
     let token = null;
     try {
         console.log("headers", req.headers.authorization);
@@ -68,6 +32,22 @@ export const verifyStaffLogin = async (req, res, next) => {
         next (error)
     }
     if (!token) {
-        return next(CreateError("Token not found", 404))
+        return next(CreateError("Token not found", 401))
     }
+}
+
+export const verifyAdmin = async (req, res, next) => {
+    const { role } = req.staff;
+    if (role != "admin") {
+        return next(CreateError("Not authorized", 403));
+    }
+    next();
+}
+
+export const verifyStaff = async (req, res, next) => {
+    const { role } = req.staff;
+    if (!role) {
+        return next(CreateError("Not authorized", 403));
+    }
+    next();
 }
