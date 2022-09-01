@@ -118,7 +118,7 @@ export const changePassword = async (req, res, next) => {
         if (!updatedStudent) {
             return next(CreateError(`Student not found with id ${id}`, 404))
         }
-        res.status(200).json ({
+        res.status(200).json({
             success: true,
             message: "Student password updated successfully",
             student: updatedStudent
