@@ -20,7 +20,7 @@ export const getStaff = async (req, res, next) => {
 
 export const createStaff = async (req, res, next) => {
     const { name, username, email, pin, role } = req.body;
-    const hashedPin = bcrypt.hash(pin, 12);
+    const hashedPin = await bcrypt.hash(pin, 12);
     try {
         const staff = new Staff ({
             name: name,
