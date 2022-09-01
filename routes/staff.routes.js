@@ -1,6 +1,6 @@
 import express from "express";
-import { verifyAdmin, verifyLogin } from "../middleware/Verifications.js";
-import { createStaff, deleteStaff, getStaff, loginStaff } from "../controllers/staff.controllers.js"
+import { verifyAdmin, verifyLogin, verifyStaff } from "../middleware/Verifications.js";
+import { createStaff, deleteStaff, getStaff, loginStaff, changePassword, updateStaffInfo } from "../controllers/staff.controllers.js"
 
 const router = express.Router();
 
@@ -14,15 +14,25 @@ router.get("/", verifyLogin, getStaff);
 // @access  public
 router.post("/", verifyLogin, verifyAdmin, createStaff);
 
-// @route   DELETE /staff/:id
+// @route   DELETE /staff/:email
 // @desc    Delete staff
 // @access  public
-router.delete("/:id", verifyLogin, verifyAdmin, deleteStaff);
+router.delete("/:email", verifyLogin, verifyAdmin, deleteStaff);
 
 // @route   POST /staff/login
 // @desc    Login staff
 // @access  Public
 router.post("/login", loginStaff);
+
+// @route   PUT /staff/:email
+// @desc    Update Staff Information
+// @access  Private
+router.put("/:email", verifyLogin, verifyStaff, updateStaffInfo)   
+
+// @route   PUT /staff/changePassword/email
+// @desc    Change Own Password 
+// @access  Private
+router.put("/changePassword/:email", verifyLogin, verifyStaff, changePassword)
 
 export default router;
 
