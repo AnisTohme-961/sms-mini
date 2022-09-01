@@ -42,13 +42,13 @@ export const createStaff = async (req, res, next) => {
 }
 
 export const deleteStaff = async (req, res, next) => {
-    const id = req.params.id;
+    const email = req.params.email;
     try {
-        const staff = await Staff.findOne({id});
+        const staff = await Staff.findOne({email});
         if (!staff) {
-            return next(CreateError(`Staff not found with id ${id}`, 404))
+            return next(CreateError(`Staff not found with email ${email}`, 404))
         }
-        const deletedData = await Staff.findByIdAndDelete(id);
+        const deletedData = await Staff.findOneAndDelete({email});
         res.status(200).json({
             success: true,
             message: "Staff deleted successfully",
@@ -65,7 +65,7 @@ export const loginStaff = async (req, res, next) => {
     try {
         const staff = await Staff.findOne({email});
         if (!staff) {
-            return next(CreateError(`Staff not found with id ${email}`, 404))
+            return next(CreateError(`Staff not found with email ${email}`, 404))
         }
         const isMatch = bcrypt.compareSync(pin, staff.pin);
         if (!isMatch) {
@@ -89,4 +89,55 @@ export const loginStaff = async (req, res, next) => {
         next(error)
     }
 }
+
+export const changePassword = async (req, res, next) => {
+    const email = req.params.email;
+    const { currentPin, newPin } = req.body; 
+    const hashedPin = await bcrypt.hash(newPin, 12);
+
+    try {
+        const staff = await Staff.findOne({email});
+        if (!staff) {
+            return next(CreateError(`Staff not found with email ${email}`, 404))
+        }
+        const isMatch = bcrypt.compareSync(currentPin, staff.pin);
+        if (!isMatch) {
+            return next(CreateError("Password is incorrect", 401))
+        }
+        const updatedStaff = await Staff.findOneAndUpdate({email}, {pin: hashedPin}, {new: true});
+        if (!updatedStaff) {
+            return next(CreateError(`Staff not found with email ${email}`, 404))
+        }
+        res.status(200).json({
+            success: true,
+            message: "Staff password updated successfully",
+            staff: updatedStaff
+        })
+    }
+
+    catch (error) {
+        next (error)
+    }
+}
+
+export const updateStaffInfo = async (req, res, next) => {
+    const email = req.params.email;
+    const { name, username } = req.body;
+    try {
+        const staff = Staff.findOneAndUpdate({email}, {name, username}, {new: true});
+        if (!staff) {
+            return next(CreateError(`Staff not found with email ${email}`, 404))
+        }
+        res.status(200).json({
+            success: true,
+            message: "Staff information updated successfully",
+            staff: staff
+        })
+    }
+    catch (error) {
+        next (error)
+    }
+}
+
+
 
