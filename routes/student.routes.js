@@ -1,23 +1,23 @@
 import express from 'express' ;
-import { verifyStudentLogin } from '../middleware/Verifications.js';
+import { verifyLogin, verifyStaff, verifyAdmin } from '../middleware/Verifications.js';
 
 import { getStudents, addStudent, getStudentById, getStudentByEmail, updateStudent, changePassword, deleteStudent, login } from '../controllers/student.controllers.js';
 
 const router = express.Router();
 
-router.get('/', getStudents); 
+router.get('/', verifyLogin, verifyAdmin, getStudents); 
 
-router.post('/', addStudent);   
+router.post('/', verifyLogin, verifyAdmin, addStudent);   
 
-router.get('/id/:id', getStudentById); 
+router.get('/id/:id', verifyLogin, getStudentById); 
 
-router.get('/email/:email', getStudentByEmail);
+router.get('/email/:email', verifyLogin, getStudentByEmail);
 
-router.put('/:id', verifyStudentLogin, updateStudent);
+router.put('/:id', verifyLogin, verifyStaff, updateStudent);
 
-router.put('/changePassword/:id', verifyStudentLogin, changePassword);
+router.put('/changePassword/:id', verifyLogin, changePassword);
 
-router.delete('/:id', deleteStudent);
+router.delete('/:id', verifyLogin, verifyAdmin, deleteStudent);
 
 router.post('/login', login);
 
