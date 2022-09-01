@@ -15,7 +15,7 @@ const staffSchema = mongoose.Schema({
         required: [true, 'Staff email is required'],
         unique: true
     },
-    password: {
+    pin: {
         type: String,
         required: [true, 'Staff password is required'],
     },
