@@ -15,7 +15,7 @@ router.get('/email/:email', verifyLogin, getStudentByEmail);
 
 router.put('/:id', verifyLogin, verifyStaff, updateStudent);
 
-router.put('/changePassword/:id', verifyLogin, changePassword);
+router.put('/changePassword/:id', verifyLogin, verifyStaff, changePassword);
 
 router.delete('/:id', verifyLogin, verifyAdmin, deleteStudent);
 
