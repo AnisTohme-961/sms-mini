@@ -5,7 +5,7 @@ import { generateStaffToken } from '../util/Token.js';
 
 export const getStaff = async (req, res, next) => {
     try {
-        const staffs = Staff.find({});
+        const staffs = await Staff.find({});
         res.status(200).json({
             success: true,
             message: "Staffs fetched successfully",
