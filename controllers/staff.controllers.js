@@ -61,19 +61,19 @@ export const deleteStaff = async (req, res, next) => {
 }
 
 export const loginStaff = async (req, res, next) => {
-    const {id, pin} = req.body;
+    const {email, pin} = req.body;
     try {
-        const staff = await Staff.findOne({id});
+        const staff = await Staff.findOne({email});
         if (!staff) {
-            return next(CreateError(`Staff not found with id ${id}`, 404))
+            return next(CreateError(`Staff not found with id ${email}`, 404))
         }
-        const isMatch = bcrypt.compareSync(pin, student.pin);
+        const isMatch = bcrypt.compareSync(pin, staff.pin);
         if (!isMatch) {
             return next(CreateError(`Password is incorrect`, 401))
         }
         const {accessToken, refreshToken } = generateStaffToken(staff); 
 
-        await Staff.findOneAndUpdate({id}, {token: refreshToken});  // update staff wih refresh token in the database
+        await Staff.findOneAndUpdate({email}, {token: refreshToken});  // update staff wih refresh token in the database
 
         const {token, ...staffData} = staff._doc;   // remove the refresh token in response using _doc
 
