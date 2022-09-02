@@ -5,13 +5,13 @@ import { getStudents, addStudent, getStudentById, getStudentByEmail, updateStude
 
 const router = express.Router();
 
-router.get('/', verifyLogin, verifyAdmin, getStudents); 
+router.get('/', verifyLogin, verifyStaff, getStudents); 
 
 router.post('/', verifyLogin, verifyAdmin, addStudent);   
 
-router.get('/id/:id', verifyLogin, getStudentById); 
+router.get('/id', verifyLogin, getStudentById); 
 
-router.get('/email/:email', verifyLogin, getStudentByEmail);
+router.get('/email', verifyLogin, getStudentByEmail);
 
 router.put('/:id', verifyLogin, verifyStaff, updateStudent);
 
