@@ -48,7 +48,7 @@ export const addStudent = async (req, res, next) => {
 }
 
 export const getStudentById = async (req, res, next) => {
-    const id = req.params.id;
+    const id = req.user.id;
     try {
         const student = await Student.findOne({id});
         if (!student) {
@@ -66,7 +66,7 @@ export const getStudentById = async (req, res, next) => {
 }
 
 export const getStudentByEmail = async (req, res, next) => {
-    const email = req.params.email;
+    const email = req.user.email;
     try {
         const student = await Student.findOne({email});
         if (!student){
