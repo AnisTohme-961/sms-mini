@@ -42,13 +42,13 @@ export const createStaff = async (req, res, next) => {
 }
 
 export const deleteStaff = async (req, res, next) => {
-    const email = req.params.email;
+    const id = req.params.id;
     try {
-        const staff = await Staff.findOne({email});
+        const staff = await Staff.findById(id);
         if (!staff) {
-            return next(CreateError(`Staff not found with email ${email}`, 404))
+            return next(CreateError(`Staff not found with email ${id}`, 404))
         }
-        const deletedData = await Staff.findOneAndDelete({email});
+        const deletedData = await Staff.findByIdAndDelete(id);
         res.status(200).json({
             success: true,
             message: "Staff deleted successfully",
@@ -121,12 +121,12 @@ export const changePassword = async (req, res, next) => {
 }
 
 export const updateStaffInfo = async (req, res, next) => {
-    const email = req.params.email;
-    const { name, username } = req.body;
+    const id = req.params.id;
+    const { name, username, email, role } = req.body;
     try {
-        const staff = Staff.findOneAndUpdate({email}, {name, username}, {new: true});
+        const staff = Staff.findByIdAndUpdate(id, {name, username, email, role}, {new: true});
         if (!staff) {
-            return next(CreateError(`Staff not found with email ${email}`, 404))
+            return next(CreateError(`Staff not found with id ${id}`, 404))
         }
         res.status(200).json({
             success: true,
@@ -139,5 +139,22 @@ export const updateStaffInfo = async (req, res, next) => {
     }
 }
 
+export const changeSelfPassword = async (req, res, next) => {
+    const id = req.user.id;
+    try {
+        const updatedStaff = await Staff.findByIdAndUpdate(id, {pin: req.body.pin}, {new: true});
+        if (!updatedStaff) {
+            return next(CreateError("Staff not found", 404));
+        }
+        res.status(201).json({
+            succces: true,
+            message: "Password changed successfully",
+            staff: updatedStaff
+        })
+    }
+    catch (error) {
+        next (error)
+    }
+}
 
 
