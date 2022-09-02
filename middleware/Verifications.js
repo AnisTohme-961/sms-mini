@@ -20,12 +20,12 @@ export const verifyLogin = async (req, res, next) => {
             return next(CreateError("Token expired", 401))
         }
 
-        const { id, role } = decodedToken;
+        /*const { id, role } = decodedToken;
         const staff = await Staff.findOne({id});
         if (!staff) {
             return next(CreateError(`Staff not found with id ${id}`, 404))
-        }
-        req.staff = staff;
+        }*/
+        req.user = decodedToken;
         next();
     }
     catch (error) {
