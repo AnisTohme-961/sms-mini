@@ -14,7 +14,7 @@ router.get("/", verifyLogin, getStaff);
 // @access  public
 router.post("/", verifyLogin, verifyAdmin, createStaff);
 
-// @route   DELETE /staff/id
+// @route   DELETE /staff/:id
 // @desc    Delete staff
 // @access  public
 router.delete("/:id", verifyLogin, verifyAdmin, deleteStaff);
@@ -24,17 +24,21 @@ router.delete("/:id", verifyLogin, verifyAdmin, deleteStaff);
 // @access  Public
 router.post("/login", loginStaff);
 
-// @route   PUT /staff/:email
+// @route   PUT /staff/:id
 // @desc    Update Staff Information
 // @access  Private
 router.put("/:id", verifyLogin, verifyAdmin, updateStaffInfo)   
 
-// @route   PUT /staff/changePassword/email
-// @desc    Change Own Password 
+// @route   PUT /staff/changePassword/:id
+// @desc    Change Password 
 // @access  Private
 router.put("/changePassword/:id", verifyLogin, changePassword)
 
-router.patch("/", changeSelfPassword);
+// @route   PATCH /staff/
+// @desc    Change Own Password
+// @access  Private
+
+router.patch("/", verifyLogin, verifyStaff, changeSelfPassword);
 
 export default router;
 
