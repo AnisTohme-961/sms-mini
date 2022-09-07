@@ -71,7 +71,7 @@ export const loginStaff = async (req, res, next) => {
         if (!isMatch) {
             return next(CreateError(`Password is incorrect`, 401))
         }
-        const {accessToken, refreshToken } = generateStaffToken(staff); 
+        const { accessToken, refreshToken } = generateStaffToken(staff); 
 
         await Staff.findOneAndUpdate({email}, {token: refreshToken});  // update staff wih refresh token in the database
 
@@ -91,22 +91,22 @@ export const loginStaff = async (req, res, next) => {
 }
 
 export const changePassword = async (req, res, next) => {
-    const email = req.params.email;
+    const id = req.params.id;
     const { currentPin, newPin } = req.body; 
     const hashedPin = await bcrypt.hash(newPin, 12);
 
     try {
-        const staff = await Staff.findOne({email});
+        const staff = await Staff.findById(id);
         if (!staff) {
-            return next(CreateError(`Staff not found with email ${email}`, 404))
+            return next(CreateError(`Staff not found with id ${id}`, 404))
         }
         const isMatch = bcrypt.compareSync(currentPin, staff.pin);
         if (!isMatch) {
             return next(CreateError("Password is incorrect", 401))
         }
-        const updatedStaff = await Staff.findOneAndUpdate({email}, {pin: hashedPin}, {new: true});
+        const updatedStaff = await Staff.findByIdAndUpdate({id}, {pin: hashedPin}, {new: true});
         if (!updatedStaff) {
-            return next(CreateError(`Staff not found with email ${email}`, 404))
+            return next(CreateError(`Staff not found with id ${id}`, 404))
         }
         res.status(200).json({
             success: true,
