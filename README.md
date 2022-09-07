@@ -8,11 +8,18 @@
 
 ***
 
+<<<<<<< HEAD
 **The most important part of this system is authorization where some data are unrevealed to others such as:**
+=======
+**The most important part of this system is authorization where some data are unrevealed to others such as:** 
+>>>>>>> d9bd002ccf61f557c4cc7572c48735ff9a60594c
 1. Student cannot enter and change any staff member's own information
 2. Student should have permission from the staff to update his data, and change his/her password
 3. Admin creates, updates or deletes a staff
 4. Admin adds or removes a student
 5. Staff members retrieve all student data
+<<<<<<< HEAD
 
+=======
+>>>>>>> d9bd002ccf61f557c4cc7572c48735ff9a60594c
 
