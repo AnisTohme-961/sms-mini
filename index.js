@@ -12,6 +12,14 @@ const app = express();
 
 app.use(express.json());
 
+app.get('/', (req, res, next) => {
+    res.status(200).json({
+        message: "Welcome To My MINI-SMS API",
+        author: "Anis Tohme",
+        repository: "https://github.com/AnisTohme-961/sms-mini"
+    })
+})
+
 app.use("/student", StudentRoutes);
 
 app.use("/staff", StaffRoutes);
